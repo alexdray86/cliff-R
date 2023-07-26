@@ -19,15 +19,13 @@ rmse <- function(tr, pr){ return( sqrt( sum((tr - pr)^2) / length(tr) ) ) }
 
 cliff <- function(climb_output, drug_data, mutation_data=NULL, min.mutation=0, em_steps = 30, 
                   mode='highres', regularization='none'){
-    message('Select overlapping samples')
+    message('Prepare CLIFF input from CLIMB output, mutation data, and drug sensitivity data')
     climb_expr = climb_output$expr.highres
-    climb_expr_overall = climb_output$expr.overall
     climb_prop = climb_output$props
-    bulk_mat = climb_output$bulk_mat
-    
+    climb_expr_overall = climb_output$expr.overall
     mean_auc = mean(drug_data$auc)
     drug_data$auc = drug_data$auc + (0.5 - mean(mean(drug_data$auc)))
-    N = dim(bulk_mat)[2]
+    N = dim(climb_prop)[1]
     if(is.null(mutation_data)){
         message('No mutation data provided')
         mutation_data = matrix(0, ncol=2, nrow=N)
@@ -39,7 +37,6 @@ cliff <- function(climb_output, drug_data, mutation_data=NULL, min.mutation=0, e
     ## Subset Sample to get samples available for a given drug
     drug_data = drug_data[match(sel.sample, drug_data$sample),]
     mutation_data = mutation_data[sel.sample,]
-    bulk_mat = bulk_mat[,sel.sample]
     climb_expr = climb_expr[order.sample.climb,,]
     climb_prop = climb_prop[order.sample.climb,]
     # Select mutation that spans at least 5 patients
@@ -49,7 +46,8 @@ cliff <- function(climb_output, drug_data, mutation_data=NULL, min.mutation=0, e
     # Check that we have the same sample names in good order
     stopifnot(all(dimnames(climb_expr)[[1]] == rownames(mutation_data)))
     stopifnot(all(dimnames(climb_expr)[[1]] == drug_data$sample))
-    
+    avg_auc = mean(drug_data$auc)   
+
     ## PREPARE CLIFF INPUT FROM CLIMB OUTPUT
     message('Prepare CLIFF input from CLIMB output, mutation data, and drug sensitivity data')
     K = num(dim(climb_expr)[3]) ; N = num(dim(climb_expr)[1])
