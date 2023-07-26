@@ -55,7 +55,6 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
     N = num(dim(climb_expr)[1])
     sample_names = dimnames(climb_expr)[[1]]
     tabs_ = list()
-    print(dim(climb_expr))
     for (n in 1:N) {
         if (mode == "overall") {
             climb_expr[n, , ] = climb_expr_overall
