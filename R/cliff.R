@@ -19,7 +19,7 @@ rmse <- function(tr, pr){ return( sqrt( sum((tr - pr)^2) / length(tr) ) ) }
 
 cliff <- function(climb_output, drug_data, mutation_data=NULL, min.mutation=0, em_steps = 30, 
                   mode='highres', regularization='none'){
-    message('Prepare CLIFF input from CLIMB output, mutation data, and drug sensitivity data')
+    message('Launching CLIFF')
     climb_expr = climb_output$expr.highres
     climb_prop = climb_output$props
     climb_expr_overall = climb_output$expr.overall
