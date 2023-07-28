@@ -14,6 +14,7 @@
 sigmoid_ <- function(x, a){
     return( 1 / (1 + exp(-x + a)))
 }
+mse <- function(tr, pr){ return( sum((tr - pr)^2) / length(tr) ) }
 rmse <- function(tr, pr){ return( sqrt( sum((tr - pr)^2) / length(tr) ) ) }
 cliff_gene_selection <- function(bulk_mat, drug_d, min.genes=10){
     stopifnot(dim(bulk_mat)[1] == length(drug_d))
@@ -167,7 +168,7 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
         PI_hat_nk = PI_hat_nk[, -1]
         rownames(PI_hat_nk) = gsub("\\.0", "", rownames(PI_hat_nk))
         PI_hat_nk = PI_hat_nk[rownames(mutation_data), ]
-        rmse_ = rmse(rowSums(as.matrix(PI_hat_nk) * as.matrix(climb_prop)), 
+        rmse_ = mse(rowSums(as.matrix(PI_hat_nk) * as.matrix(climb_prop)), 
             drug_data.sub$auc)
         if (rmse_ < min_rmse) {
             min_rmse = rmse_
