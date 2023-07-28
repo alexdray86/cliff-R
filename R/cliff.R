@@ -8,7 +8,7 @@
 #' @param drug_data data.frame containing a column named 'auc' with AUC values of drug sensitivity
 #' @param mutation_data matrix optional parameter containing a 1/0 matrix with mutation per bulk sample
 #' @param min.mutation integer minimum number of patient having a mutation to include it in the model
-#' @param em_steps integer maximum number of steps in the EM algorithm
+#' @param max.em.steps integer maximum number of steps in the EM algorithm
 #' @param mode string 'overall' will uses the same average cell-type expression across patients. 'high-res' uses the deconvoluted expression at high-resolution produced by CLIMB
 #' @param regularization string 'none' does not apply normalization. L2 applied ridge regularization
 
@@ -18,7 +18,7 @@ sigmoid_ <- function(x, a){
 rmse <- function(tr, pr){ return( sqrt( sum((tr - pr)^2) / length(tr) ) ) }
 
 cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation = 0, 
-                    em_steps = 30, mode = "highres", regularization = "none", cancer_pattern='like') 
+                    max.em.steps = 30, mode = "highres", regularization = "none", cancer_pattern='like') 
 {
     message('Prepare CLIFF input from CLIMB output, mutation data, and drug sensitivity data')
     climb_expr = climb_output$expr.highres
@@ -104,7 +104,7 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
     drug_data$y = drug_data$auc
     it.increasing.rmse = 0
     min_rmse = 1000
-    for (e in 1:em_steps) {
+    for (e in 1:max.em.steps) {
         for (i in 0:(2 * N - 1)) {
             start_ = i * K + 1
             end_ = (i + 1) * K
