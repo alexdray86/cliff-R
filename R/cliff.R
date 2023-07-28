@@ -185,5 +185,5 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
             }
         }
     }
-    return(list(min_PI, mutation_data, climb_prop))
+    return(list(PI_hat_nk, mutation_data, climb_prop))
 }
