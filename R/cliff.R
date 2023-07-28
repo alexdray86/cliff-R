@@ -17,6 +17,20 @@ sigmoid_ <- function(x, a){
 }
 rmse <- function(tr, pr){ return( sqrt( sum((tr - pr)^2) / length(tr) ) ) }
 
+## This is our Feature selection method
+cliff.gene_selection <- function(bulk_mat, drug_d, min.genes=10){
+    stopifnot(dim(bulk_mat)[1] == length(drug_d))
+    for(i in 1:100){
+        la = 10^(-i)
+        fit = glmnet(bulk_mat, y=drug_d, lambda=la)
+        coefs_ = coef(fit)[-1]
+        n_genes = sum(coefs_>0)
+        if ( n_genes > min.genes ){
+            return(rownames(bulk.es)[coefs_ > 0])
+        }
+    }
+}
+
 cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation = 0, 
                     max.em.steps = 100, mode = "highres", regularization = "none", cancer_pattern='like') 
 {
