@@ -113,7 +113,7 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
     prev_rmse = 1e+05
     lambda = 0
     drug_data$y = drug_data$auc
-    it.increasing.rmse = 0
+    it.increasing.rmse = -1
     min_rmse = 1000
     for (e in 1:max.em.steps) {
         for (i in 0:(2 * N - 1)) {
@@ -180,7 +180,7 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
         }
         else {
             it.increasing.rmse = it.increasing.rmse + 1
-            if (it.increasing.rmse >= 1) {
+            if (it.increasing.rmse >= 3) {
                 message(paste0("early stopping of EM algorithm at step ", 
                   e))
                 break
