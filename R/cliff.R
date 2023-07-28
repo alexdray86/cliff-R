@@ -18,7 +18,7 @@ sigmoid_ <- function(x, a){
 rmse <- function(tr, pr){ return( sqrt( sum((tr - pr)^2) / length(tr) ) ) }
 
 cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation = 0, 
-                    max.em.steps = 30, mode = "highres", regularization = "none", cancer_pattern='like') 
+                    max.em.steps = 100, mode = "highres", regularization = "none", cancer_pattern='like') 
 {
     message('Prepare CLIFF input from CLIMB output, mutation data, and drug sensitivity data')
     climb_expr = climb_output$expr.highres
