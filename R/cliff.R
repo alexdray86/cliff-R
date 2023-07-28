@@ -11,13 +11,10 @@
 #' @param max.em.steps integer maximum number of steps in the EM algorithm
 #' @param mode string 'overall' will uses the same average cell-type expression across patients. 'high-res' uses the deconvoluted expression at high-resolution produced by CLIMB
 #' @param regularization string 'none' does not apply normalization. L2 applied ridge regularization
-
 sigmoid_ <- function(x, a){
     return( 1 / (1 + exp(-x + a)))
 }
 rmse <- function(tr, pr){ return( sqrt( sum((tr - pr)^2) / length(tr) ) ) }
-
-## This is our Feature selection method
 cliff_gene_selection <- function(bulk_mat, drug_d, min.genes=10){
     stopifnot(dim(bulk_mat)[1] == length(drug_d))
     for(i in 1:100){
@@ -30,7 +27,6 @@ cliff_gene_selection <- function(bulk_mat, drug_d, min.genes=10){
         }
     }
 }
-
 cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation = 0, 
                     max.em.steps = 100, mode = "highres", regularization = "none", cancer_pattern='like') 
 {
