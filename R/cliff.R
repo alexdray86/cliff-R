@@ -177,7 +177,7 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
         }
         else {
             it.increasing.rmse = it.increasing.rmse + 1
-            if (it.increasing.rmse >= 2) {
+            if (it.increasing.rmse >= 5) {
                 message(paste0("early stopping of EM algorithm at step ", 
                   e))
                 break
