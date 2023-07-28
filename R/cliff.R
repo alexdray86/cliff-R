@@ -18,7 +18,7 @@ sigmoid_ <- function(x, a){
 rmse <- function(tr, pr){ return( sqrt( sum((tr - pr)^2) / length(tr) ) ) }
 
 ## This is our Feature selection method
-cliff.gene_selection <- function(bulk_mat, drug_d, min.genes=10){
+cliff_gene_selection <- function(bulk_mat, drug_d, min.genes=10){
     stopifnot(dim(bulk_mat)[1] == length(drug_d))
     for(i in 1:100){
         la = 10^(-i)
