@@ -170,6 +170,7 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
         PI_hat_nk = PI_hat_nk[rownames(mutation_data), ]
         rmse_ = mse(rowSums(as.matrix(PI_hat_nk) * as.matrix(climb_prop)), 
             drug_data.sub$auc)
+        message(rmse_)
         if (rmse_ < min_rmse) {
             min_rmse = rmse_
             min_coefs = cliff_coefs
