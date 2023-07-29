@@ -63,7 +63,6 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
     stopifnot(all(dimnames(climb_expr)[[1]] == rownames(mutation_data)))
     stopifnot(all(dimnames(climb_expr)[[1]] == drug_data$sample))
     avg_auc = mean(drug_data$auc)
-    print(dim(climb_expr)) ; print(dim(climb_prop))  
     message("Prepare CLIFF input from CLIMB output, mutation data, and drug sensitivity data")
     K = num(dim(climb_expr)[3])
     N = num(dim(climb_expr)[1])
