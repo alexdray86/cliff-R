@@ -32,32 +32,32 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
                     max.em.steps = 100, mode = "highres", regularization = "none", cancer_pattern='like') 
 {
     message("Prepare CLIFF input from CLIMB output, mutation data, and drug sensitivity data")
-    climb_expr = climb_output$expr.highres
-    climb_prop = climb_output$props
-    rownames(climb_prop) = dimnames(climb_expr)[[1]]
-    climb_expr_overall = climb_output$expr.overall
-    mean_auc = mean(drug_data$auc)
-    drug_data$auc = drug_data$auc + (0.5 - mean(mean(drug_data$auc)))
-    sel.sample = intersect(dimnames(climb_expr)[[1]], intersect(rownames(mutation_data), 
-        drug_data$sample))
-    order.sample.climb = match(sel.sample, dimnames(climb_expr)[[1]])
-    drug_data = drug_data[match(sel.sample, drug_data$sample), 
-        ]
-    mutation_data = mutation_data[order.sample.climb, ]
-    climb_expr = climb_expr[order.sample.climb, , ]
-    climb_prop = climb_prop[order.sample.climb, ]
-    N = dim(climb_prop)[1]
-    n_col_mutation = sum(colSums(mutation_data[drug_data$sample,] >= min.mutation))
-    if (is.null(mutation_data) | n_col_mutation == 0) {
-        message("No mutation data provided or not enough mutation in selected samples")
-        mutation_data = matrix(0, ncol = 2, nrow = N)
-        colnames(mutation_data) = c("a", "b")
-        rownames(mutation_data) = rownames(climb_prop)
-    } else {
-        sel.mutation = colSums(mutation_data) >= min.mutation
-        mutation_data = mutation_data[, sel.mutation]
-        mutation_data = as.matrix(mutation_data)
-    }
+	climb_expr = climb_output$expr.highres
+	climb_prop = climb_output$props
+	rownames(climb_prop) = dimnames(climb_expr)[[1]]
+	climb_expr_overall = climb_output$expr.overall
+	mean_auc = mean(drug_data$auc)
+	drug_data$auc = drug_data$auc + (0.5 - mean(mean(drug_data$auc)))
+	sel.sample = intersect(dimnames(climb_expr)[[1]], intersect(rownames(mutation_data), 
+		drug_data$sample))
+	order.sample.climb = match(sel.sample, dimnames(climb_expr)[[1]])
+	drug_data = drug_data[match(sel.sample, drug_data$sample), 
+		]
+	mutation_data = mutation_data[sel.sample, ]
+	climb_expr = climb_expr[order.sample.climb, , ]
+	climb_prop = climb_prop[order.sample.climb, ]
+	N = dim(climb_prop)[1]
+	n_col_mutation = sum(colSums(mutation_data) >= min.mutation)
+	if (is.null(mutation_data) | n_col_mutation == 0) {
+		message("No mutation data provided or not enough mutation in selected samples")
+		mutation_data = matrix(0, ncol = 2, nrow = N)
+		colnames(mutation_data) = c("a", "b")
+		rownames(mutation_data) = rownames(climb_prop)
+	} else {
+		sel.mutation = colSums(mutation_data) >= min.mutation
+		mutation_data = mutation_data[, sel.mutation]
+		mutation_data = as.matrix(mutation_data)
+	}
     # Check that we have the same sample names in good order
     stopifnot(all(dimnames(climb_expr)[[1]] == rownames(mutation_data)))
     stopifnot(all(dimnames(climb_expr)[[1]] == drug_data$sample))
