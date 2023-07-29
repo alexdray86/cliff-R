@@ -44,18 +44,11 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
 	mean_auc = mean(drug_data$auc)
 	drug_data$auc = drug_data$auc + (0.5 - mean(mean(drug_data$auc)))
 	sel.sample = Reduce(intersect, list(dimnames(climb_expr)[[1]], rownames(mutation_data), drug_data$sample))
-    print(sel.sample)
 	order.sample.climb = match(sel.sample, dimnames(climb_expr)[[1]])
-    print(order.sample.climb)
 	drug_data = drug_data[match(sel.sample, drug_data$sample),]
-    print(dim(climb_expr)) ; print(dim(climb_prop))  
-
 	climb_expr = climb_expr[order.sample.climb, , ]
 	climb_prop = climb_prop[order.sample.climb, ]
-    print(dim(climb_expr)) ; print(dim(climb_prop))  
-
 	N = dim(climb_prop)[1]
-	 
     if (sum(colSums(mutation_data) >= min.mutation) == 0){
         message("Not enough mutation in selected samples")
         mutation_data = matrix(0, ncol = 2, nrow = N)
@@ -189,7 +182,7 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
         }
         else {
             it.increasing.rmse = it.increasing.rmse + 1
-            if (it.increasing.rmse >= 1) {
+            if (it.increasing.rmse >= 2) {
                 message(paste0("early stopping of EM algorithm at step ", 
                   e))
                 break
