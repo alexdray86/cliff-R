@@ -47,16 +47,21 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
 	climb_expr = climb_expr[order.sample.climb, , ]
 	climb_prop = climb_prop[order.sample.climb, ]
 	N = dim(climb_prop)[1]
-	if (is.null(mutation_data) | sum(colSums(mutation_data) >= min.mutation) == 0) {
-		message("No mutation data provided or not enough mutation in selected samples")
+	if (is.null(mutation_data) | ) {
+		message("No mutation data provided")
 		mutation_data = matrix(0, ncol = 2, nrow = N)
-		colnames(mutation_data) = c("a", "b")
-		rownames(mutation_data) = rownames(climb_prop)
+		colnames(mutation_data) = c("a", "b") ; rownames(mutation_data) = rownames(climb_prop)
 	} else {
-        mutation_data = mutation_data[sel.sample, ]
-		sel.mutation = colSums(mutation_data) >= min.mutation
-		mutation_data = mutation_data[, sel.mutation]
-		mutation_data = as.matrix(mutation_data)
+        if (sum(colSums(mutation_data) >= min.mutation) == 0){
+            message("Not enough mutation in selected samples")
+    		mutation_data = matrix(0, ncol = 2, nrow = N)
+	    	colnames(mutation_data) = c("a", "b") ; rownames(mutation_data) = rownames(climb_prop)
+        } else {
+            mutation_data = mutation_data[sel.sample, ]
+            sel.mutation = colSums(mutation_data) >= min.mutation
+            mutation_data = mutation_data[, sel.mutation]
+            mutation_data = as.matrix(mutation_data)
+        }
 	}
     # Check that we have the same sample names in good order
     stopifnot(all(dimnames(climb_expr)[[1]] == rownames(mutation_data)))
