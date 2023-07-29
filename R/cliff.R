@@ -173,7 +173,7 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
         auc_values = drug_data.sub$auc[seq(1,length(drug_data.sub$auc),K)]
         rmse_ = rmse(rowSums(as.matrix(PI_hat_nk) * as.matrix(climb_prop)), 
             auc_values)
-        if ( e > 1 & rmse_ < min_rmse & abs(rmse_ - min_rmse) > 5e-3 ){
+        if ( e > 1 & rmse_ < min_rmse & abs(rmse_ - min_rmse) > 1e-3 ){
             min_rmse = rmse_
             min_coefs = cliff_coefs
             min_PI = PI_hat_nk
@@ -181,7 +181,7 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
         }
         else {
             it.increasing.rmse = it.increasing.rmse + 1
-            if (it.increasing.rmse >= 2) {
+            if (it.increasing.rmse >= 3) {
                 message(paste0("early stopping of EM algorithm at step ", 
                   e))
                 break
