@@ -47,7 +47,7 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
 	climb_expr = climb_expr[order.sample.climb, , ]
 	climb_prop = climb_prop[order.sample.climb, ]
 	N = dim(climb_prop)[1]
-	if (is.null(mutation_data) | ) {
+	if (is.null(mutation_data) ) {
 		message("No mutation data provided")
 		mutation_data = matrix(0, ncol = 2, nrow = N)
 		colnames(mutation_data) = c("a", "b") ; rownames(mutation_data) = rownames(climb_prop)
