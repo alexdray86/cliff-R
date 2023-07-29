@@ -38,7 +38,7 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
 	climb_expr_overall = climb_output$expr.overall
     if (is.null(mutation_data) ) {
 		message("No mutation data provided")
-		mutation_data = matrix(0, ncol = 2, nrow = N)
+		mutation_data = matrix(0, ncol = 2, nrow = dim(climb_prop)[1])
 		colnames(mutation_data) = c("a", "b") ; rownames(mutation_data) = rownames(climb_prop)
 	}
 	mean_auc = mean(drug_data$auc)
