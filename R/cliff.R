@@ -24,7 +24,7 @@ cliff_gene_selection <- function(bulk_mat, drug_d, min.genes=10){
         coefs_ = coef(fit)[-1]
         n_genes = sum(coefs_>0)
         if ( n_genes > min.genes ){
-            return(rownames(bulk.es)[coefs_ > 0])
+            return(colnames(bulk_mat)[coefs_ > 0])
         }
     }
 }
