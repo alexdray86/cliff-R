@@ -48,13 +48,13 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
 	drug_data = drug_data[match(sel.sample, drug_data$sample),]
 	climb_expr = climb_expr[order.sample.climb, , ]
 	climb_prop = climb_prop[order.sample.climb, ]
+    mutation_data = mutation_data[sel.sample, ]
 	N = dim(climb_prop)[1]
     if (sum(colSums(mutation_data) >= min.mutation) == 0){
         message("Not enough mutation in selected samples")
         mutation_data = matrix(0, ncol = 2, nrow = N)
         colnames(mutation_data) = c("a", "b") ; rownames(mutation_data) = rownames(climb_prop)
     } else {
-        mutation_data = mutation_data[sel.sample, ]
         sel.mutation = colSums(mutation_data) >= min.mutation
         mutation_data = mutation_data[, sel.mutation]
         mutation_data = as.matrix(mutation_data)
