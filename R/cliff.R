@@ -71,7 +71,7 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
     for (n in 1:N) {
         if (mode == "overall") {
             climb_expr[n, , ] = climb_expr_overall
-            df_expr = data.frame(t(log2(climb_expr[n, , ] + 1))/rowSums(t(log2(climb_expr[n, 
+            df_expr = data.frame(t(log2(climb_expr[n, , ] + 1))/sum(t(log2(climb_expr[n, 
             , ] + 1)))) * climb_prop[n, ]
         } else {
             df_expr = data.frame(t(log2(climb_expr[n, , ] + 1))/sum(t(log2(climb_expr[n, 
