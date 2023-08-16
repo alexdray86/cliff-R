@@ -71,6 +71,9 @@ cliff <- function (climb_output, drug_data, mutation_data = NULL, min.mutation =
     for (n in 1:N) {
         if (mode == "overall") {
             climb_expr[n, , ] = climb_expr_overall
+        } else {
+            q99 = quantile(climb_expr[n, , ], p=0.95)
+            climb_expr[n, , ][climb_expr[n, , ] > q99] <- q99
         }
         df_expr = data.frame(t(log2(climb_expr[n, , ] + 1))/rowSums(t(log2(climb_expr[n, 
         , ] + 1)))) * climb_prop[n, ]
